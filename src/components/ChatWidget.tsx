@@ -1,22 +1,108 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 type Message = { role: "user" | "assistant"; content: string };
 
-const quickReplies: Record<string, string> = {
-  "What is ISHAN BETA MD?": "ISHAN BETA MD is an advanced WhatsApp automation bot (V3 ULTRA) with 50K+ active users. It provides features like movie downloads, AI chat, group management tools, music hub, and privacy protection — all through simple WhatsApp commands.",
-  "How to get pair code?": "To get your pair code, visit the official pairing website:\n\nhttps://ishan-x-md-beta-pair-web-main.onrender.com\n\nFollow the instructions there to link ISHAN BETA MD to your WhatsApp account.",
-  "List all commands": "Here are the available commands:\n\n`.alive` `.menu` `.movie` `.song` `.fb` `.tiktok` `.vv` `.apk` `.image` `.logo` `.video` `.anime` `.jid` `.pin` `.join` `.forward`\n\nType `.menu` in your WhatsApp to see the full categorized list!",
-  "How to deploy?": "1. Download the source code from GitHub\n2. Fork the repository\n3. Set up your environment variables\n4. Deploy on a platform like Heroku, Render, or Railway\n5. Scan the QR code or use the pair code to connect\n\nFor more help, join our support group!",
-};
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+
+const quickReplies = [
+  "What is ISHAN BETA MD?",
+  "How to get pair code?",
+  "List all commands",
+  "How to deploy?",
+];
+
+async function streamChat({
+  messages,
+  onDelta,
+  onDone,
+  onError,
+}: {
+  messages: Message[];
+  onDelta: (text: string) => void;
+  onDone: () => void;
+  onError: (err: string) => void;
+}) {
+  try {
+    const resp = await fetch(CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ messages }),
+    });
+
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      onError(data.error || "Something went wrong");
+      return;
+    }
+
+    if (!resp.body) { onError("No response body"); return; }
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let streamDone = false;
+
+    while (!streamDone) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      let newlineIndex: number;
+      while ((newlineIndex = buffer.indexOf("\n")) !== -1) {
+        let line = buffer.slice(0, newlineIndex);
+        buffer = buffer.slice(newlineIndex + 1);
+        if (line.endsWith("\r")) line = line.slice(0, -1);
+        if (line.startsWith(":") || line.trim() === "") continue;
+        if (!line.startsWith("data: ")) continue;
+        const jsonStr = line.slice(6).trim();
+        if (jsonStr === "[DONE]") { streamDone = true; break; }
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) onDelta(content);
+        } catch {
+          buffer = line + "\n" + buffer;
+          break;
+        }
+      }
+    }
+
+    // Flush remaining
+    if (buffer.trim()) {
+      for (let raw of buffer.split("\n")) {
+        if (!raw) continue;
+        if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+        if (raw.startsWith(":") || raw.trim() === "") continue;
+        if (!raw.startsWith("data: ")) continue;
+        const jsonStr = raw.slice(6).trim();
+        if (jsonStr === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+          if (content) onDelta(content);
+        } catch { /* ignore */ }
+      }
+    }
+
+    onDone();
+  } catch (e) {
+    onError(e instanceof Error ? e.message : "Connection failed");
+  }
+}
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "👋 Hi! I'm the ISHAN-X AI Assistant. How can I help you today? Choose a question below or type your own!" },
+    { role: "assistant", content: "👋 Hi! I'm the **ISHAN-X AI Assistant**. How can I help you today? Choose a question below or type your own!" },
   ]);
   const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,24 +111,44 @@ const ChatWidget = () => {
     }
   }, [messages]);
 
-  const handleSend = (text?: string) => {
+  const handleSend = async (text?: string) => {
     const msg = text || input.trim();
-    if (!msg) return;
+    if (!msg || isLoading) return;
     setInput("");
 
     const userMsg: Message = { role: "user", content: msg };
-    setMessages((prev) => [...prev, userMsg]);
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    setIsLoading(true);
 
-    setTimeout(() => {
-      const reply = quickReplies[msg] ||
-        "Thanks for your message! For detailed assistance, please join our WhatsApp support group or contact the developer directly. I can help with basic questions about ISHAN BETA MD commands, deployment, and features.";
-      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
-    }, 600);
+    let assistantSoFar = "";
+    const upsertAssistant = (chunk: string) => {
+      assistantSoFar += chunk;
+      setMessages((prev) => {
+        const last = prev[prev.length - 1];
+        if (last?.role === "assistant" && prev.length > newMessages.length) {
+          return prev.map((m, i) => (i === prev.length - 1 ? { ...m, content: assistantSoFar } : m));
+        }
+        return [...prev.slice(0, newMessages.length), { role: "assistant", content: assistantSoFar }];
+      });
+    };
+
+    // Only send the conversation history (exclude the initial greeting for cleaner context)
+    const apiMessages = newMessages.slice(1).map(({ role, content }) => ({ role, content }));
+
+    await streamChat({
+      messages: apiMessages,
+      onDelta: (chunk) => upsertAssistant(chunk),
+      onDone: () => setIsLoading(false),
+      onError: (err) => {
+        setIsLoading(false);
+        setMessages((prev) => [...prev, { role: "assistant", content: `⚠️ ${err}` }]);
+      },
+    });
   };
 
   return (
     <>
-      {/* Toggle button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full gradient-primary flex items-center justify-center glow-box-strong hover:opacity-90 transition-opacity"
@@ -80,13 +186,19 @@ const ChatWidget = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[75%] px-3 py-2 rounded-lg text-sm font-body whitespace-pre-wrap ${
+                    className={`max-w-[75%] px-3 py-2 rounded-lg text-sm font-body ${
                       msg.role === "user"
                         ? "bg-primary text-primary-foreground rounded-br-none"
                         : "bg-secondary text-secondary-foreground rounded-bl-none"
                     }`}
                   >
-                    {msg.content}
+                    {msg.role === "assistant" ? (
+                      <div className="prose prose-sm prose-invert max-w-none [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
+                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      <span className="whitespace-pre-wrap">{msg.content}</span>
+                    )}
                   </div>
                   {msg.role === "user" && (
                     <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center shrink-0 mt-0.5">
@@ -95,16 +207,27 @@ const ChatWidget = () => {
                   )}
                 </div>
               ))}
+              {isLoading && messages[messages.length - 1]?.role === "user" && (
+                <div className="flex gap-2 justify-start">
+                  <div className="w-7 h-7 rounded-full gradient-primary flex items-center justify-center shrink-0">
+                    <Bot className="w-3.5 h-3.5 text-primary-foreground" />
+                  </div>
+                  <div className="bg-secondary text-secondary-foreground rounded-lg rounded-bl-none px-3 py-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Quick replies */}
             {messages.length <= 2 && (
               <div className="px-4 pb-2 flex flex-wrap gap-1.5">
-                {Object.keys(quickReplies).map((q) => (
+                {quickReplies.map((q) => (
                   <button
                     key={q}
                     onClick={() => handleSend(q)}
-                    className="text-xs px-2.5 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors font-body"
+                    disabled={isLoading}
+                    className="text-xs px-2.5 py-1.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors font-body disabled:opacity-50"
                   >
                     {q}
                   </button>
@@ -119,11 +242,13 @@ const ChatWidget = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Type a message..."
-                className="flex-1 bg-secondary/50 border border-border/50 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 font-body"
+                disabled={isLoading}
+                className="flex-1 bg-secondary/50 border border-border/50 rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 font-body disabled:opacity-50"
               />
               <button
                 onClick={() => handleSend()}
-                className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center hover:opacity-90 transition-opacity shrink-0"
+                disabled={isLoading}
+                className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center hover:opacity-90 transition-opacity shrink-0 disabled:opacity-50"
               >
                 <Send className="w-4 h-4 text-primary-foreground" />
               </button>
