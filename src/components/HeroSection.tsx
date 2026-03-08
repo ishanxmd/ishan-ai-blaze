@@ -16,54 +16,11 @@ const HeroSection = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-8"
         >
-          <div className="relative w-48 h-48 md:w-56 md:h-56 flex items-center justify-center">
-            {/* Outermost rotating dashed ring */}
-            <div className="absolute inset-0 rounded-full border border-dashed border-primary/20 animate-[spin_25s_linear_infinite]" />
-            
-            {/* Second ring - reverse spin */}
-            <div className="absolute inset-3 rounded-full border border-primary/15 animate-[spin_18s_linear_infinite_reverse]" />
-            
-            {/* Pulsing glow ring */}
-            <div className="absolute inset-5 rounded-full border-2 border-primary/30 animate-[ring-pulse_3s_ease-in-out_infinite]" />
-            
-            {/* Orbiting dots */}
-            <div className="absolute inset-0 animate-[spin_8s_linear_infinite]">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_10px_hsl(212_100%_50%/0.8)]" />
-            </div>
-            <div className="absolute inset-0 animate-[spin_12s_linear_infinite_reverse]">
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-primary/70 shadow-[0_0_8px_hsl(212_100%_50%/0.6)]" />
-            </div>
-            <div className="absolute inset-0 animate-[spin_6s_linear_infinite]">
-              <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/50 shadow-[0_0_6px_hsl(212_100%_50%/0.5)]" />
-            </div>
-
-            {/* Corner tech brackets */}
-            <div className="absolute -inset-1 pointer-events-none">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl-sm" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr-sm" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary/40 rounded-bl-sm" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary/40 rounded-br-sm" />
-            </div>
-
-            {/* Data stream particles */}
-            <div className="absolute inset-6 rounded-full overflow-hidden pointer-events-none">
-              <div className="absolute left-1/4 inset-y-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent animate-[data-stream_2.5s_ease-in-out_infinite]" />
-              <div className="absolute left-1/2 inset-y-0 w-px bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-[data-stream_3s_ease-in-out_infinite_0.5s]" />
-              <div className="absolute left-3/4 inset-y-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent animate-[data-stream_2s_ease-in-out_infinite_1s]" />
-            </div>
-
-            {/* Scan line */}
-            <div className="absolute inset-6 rounded-full overflow-hidden pointer-events-none">
-              <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent animate-scan-line" />
-            </div>
-
-            {/* Logo */}
-            <img
-              src={botLogo}
-              alt="ISHAN BETA MD Bot Logo"
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 animate-float object-cover relative z-10"
-            />
-          </div>
+          <img
+            src={botLogo}
+            alt="ISHAN BETA MD Bot Logo"
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 animate-float object-cover"
+          />
         </motion.div>
 
         <motion.h1
