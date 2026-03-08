@@ -54,7 +54,7 @@ const HeroSection = () => {
             href="https://ishan-x-md-beta-pair-web-main.onrender.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="gradient-primary px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center gap-2 hover:opacity-90 transition-opacity glow-box"
+            className="btn-color-shift px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center gap-2 hover:opacity-90 transition-opacity glow-box"
           >
             <ExternalLink className="w-4 h-4" />
             GET PAIR CODE
