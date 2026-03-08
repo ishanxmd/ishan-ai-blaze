@@ -154,7 +154,7 @@ const ChatWidget = () => {
         className="fixed bottom-6 right-6 z-50 px-5 h-12 rounded-full gradient-primary flex items-center justify-center gap-2 glow-box-strong hover:opacity-90 transition-opacity"
         whileTap={{ scale: 0.95 }}
       >
-        {isOpen ? <X className="w-6 h-6 text-primary-foreground" /> : <MessageCircle className="w-6 h-6 text-primary-foreground" />}
+        {isOpen ? <X className="w-5 h-5 text-primary-foreground" /> : <><MessageCircle className="w-5 h-5 text-primary-foreground" /><span className="font-display text-xs tracking-widest text-primary-foreground">ISHAN-X AI</span></>}
       </motion.button>
 
       <AnimatePresence>
