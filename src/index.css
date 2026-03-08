@@ -99,6 +99,12 @@
     background-clip: text;
   }
 
+  .btn-color-shift {
+    background: linear-gradient(270deg, hsl(212 100% 50%), hsl(280 100% 60%), hsl(340 100% 55%), hsl(212 100% 50%));
+    background-size: 300% 300%;
+    animation: color-shift 4s ease-in-out infinite;
+  }
+
   .glass-card {
     @apply bg-card/60 backdrop-blur-xl border border-border/50 rounded-xl;
   }

@@ -63,7 +63,7 @@ const HeroSection = () => {
             href="https://github.com/ishanxmd/ISHAN-X-BETA-MD"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3.5 rounded-lg font-display text-sm tracking-widest border border-primary/50 text-foreground flex items-center gap-2 hover:bg-primary/10 transition-colors"
+            className="btn-color-shift px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center gap-2 hover:opacity-90 transition-opacity glow-box"
           >
             <Github className="w-4 h-4" />
             GET REPO

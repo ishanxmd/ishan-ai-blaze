@@ -25,7 +25,7 @@ const DownloadSection = () => {
             href="https://github.com/ishanxmd/ISHAN-X-BETA-MD/archive/refs/heads/main.zip"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 gradient-primary px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground hover:opacity-90 transition-opacity glow-box"
+            className="inline-flex items-center gap-2 btn-color-shift px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground hover:opacity-90 transition-opacity glow-box"
           >
             <Download className="w-4 h-4" />
             Download Source Code
