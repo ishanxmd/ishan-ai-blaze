@@ -17,11 +17,25 @@ const HeroSection = () => {
           className="mb-8"
         >
           <div className="relative">
-            <div className="absolute inset-0 rounded-full animate-pulse-glow" />
+            {/* Outer rotating ring */}
+            <div className="absolute -inset-4 rounded-full border border-dashed border-primary/30 animate-[spin_20s_linear_infinite]" />
+            {/* Middle pulsing ring */}
+            <div className="absolute -inset-2 rounded-full border border-primary/20 animate-pulse-glow" />
+            {/* Corner accents */}
+            <div className="absolute -inset-6 pointer-events-none">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary/60 rotate-45" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-primary/60 rotate-45" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary/60 rotate-45" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary/60 rotate-45" />
+            </div>
+            {/* Scan line overlay */}
+            <div className="absolute inset-0 rounded-full overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent animate-scan-line" />
+            </div>
             <img
               src={botLogo}
               alt="ISHAN BETA MD Bot Logo"
-              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 animate-float object-cover"
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 animate-float object-cover relative z-10"
             />
           </div>
         </motion.div>
