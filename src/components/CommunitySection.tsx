@@ -30,7 +30,7 @@ const CommunitySection = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex-1 gradient-primary px-6 py-4 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center justify-center gap-3 hover:opacity-90 transition-opacity glow-box"
+            className="flex-1 btn-color-shift px-6 py-4 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center justify-center gap-3 hover:opacity-90 transition-opacity glow-box"
           >
             <MessageCircle className="w-5 h-5" />
             Support Group
@@ -44,7 +44,7 @@ const CommunitySection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             viewport={{ once: true }}
-            className="flex-1 px-6 py-4 rounded-lg font-display text-sm tracking-widest border border-primary/50 text-foreground flex items-center justify-center gap-3 hover:bg-primary/10 transition-colors"
+            className="flex-1 btn-color-shift px-6 py-4 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center justify-center gap-3 hover:opacity-90 transition-opacity glow-box"
           >
             <Radio className="w-5 h-5" />
             Join Channel
