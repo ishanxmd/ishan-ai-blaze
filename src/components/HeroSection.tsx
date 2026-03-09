@@ -2,6 +2,165 @@ import { motion } from "framer-motion";
 import botLogo from "@/assets/bot-logo.png";
 import { ExternalLink, Github } from "lucide-react";
 
+const HexagonHUD = () => {
+  // Hexagon points for a regular hexagon (pointy-top), scaled to fit a viewBox
+  const size = 280;
+  const cx = size / 2;
+  const cy = size / 2;
+
+  const hexPoints = (radius: number) => {
+    return Array.from({ length: 6 }, (_, i) => {
+      const angle = (Math.PI / 3) * i - Math.PI / 2;
+      return `${cx + radius * Math.cos(angle)},${cy + radius * Math.sin(angle)}`;
+    }).join(" ");
+  };
+
+  const cornerPositions = Array.from({ length: 6 }, (_, i) => {
+    const angle = (Math.PI / 3) * i - Math.PI / 2;
+    const r = 120;
+    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  });
+
+  return (
+    <svg
+      viewBox={`0 0 ${size} ${size}`}
+      className="absolute inset-[-40px] md:inset-[-50px] w-[calc(100%+80px)] h-[calc(100%+80px)] md:w-[calc(100%+100px)] md:h-[calc(100%+100px)]"
+    >
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(212 100% 50%)" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="hsl(230 100% 60%)" stopOpacity="0.6" />
+          <stop offset="100%" stopColor="hsl(212 100% 50%)" stopOpacity="0.8" />
+        </linearGradient>
+      </defs>
+
+      {/* Outer hexagon - rotating */}
+      <g className="animate-spin-slow" style={{ transformOrigin: "center" }}>
+        <polygon
+          points={hexPoints(130)}
+          fill="none"
+          stroke="hsl(212 100% 50% / 0.15)"
+          strokeWidth="1"
+        />
+      </g>
+
+      {/* Main hexagon frame */}
+      <polygon
+        points={hexPoints(120)}
+        fill="none"
+        stroke="url(#hexGrad)"
+        strokeWidth="1.5"
+        filter="url(#glow)"
+        className="animate-pulse-glow"
+      />
+
+      {/* Inner hexagon - counter-rotating */}
+      <g className="animate-spin-reverse" style={{ transformOrigin: "center" }}>
+        <polygon
+          points={hexPoints(110)}
+          fill="none"
+          stroke="hsl(212 100% 50% / 0.2)"
+          strokeWidth="0.5"
+          strokeDasharray="8 4"
+        />
+      </g>
+
+      {/* Corner bracket markers */}
+      {cornerPositions.map((pos, i) => (
+        <g key={i}>
+          {/* Corner dot */}
+          <circle
+            cx={pos.x}
+            cy={pos.y}
+            r="3"
+            fill="hsl(212 100% 50%)"
+            filter="url(#glow)"
+          >
+            <animate
+              attributeName="opacity"
+              values="0.4;1;0.4"
+              dur={`${1.5 + i * 0.3}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+          {/* Small bracket lines at corners */}
+          <line
+            x1={pos.x - 6}
+            y1={pos.y}
+            x2={pos.x + 6}
+            y2={pos.y}
+            stroke="hsl(212 100% 50% / 0.5)"
+            strokeWidth="0.5"
+          />
+          <line
+            x1={pos.x}
+            y1={pos.y - 6}
+            x2={pos.x}
+            y2={pos.y + 6}
+            stroke="hsl(212 100% 50% / 0.5)"
+            strokeWidth="0.5"
+          />
+        </g>
+      ))}
+
+      {/* Data readout lines - top */}
+      <g opacity="0.6">
+        <line x1="90" y1="25" x2="190" y2="25" stroke="hsl(212 100% 50% / 0.3)" strokeWidth="0.5" />
+        <text x="92" y="22" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" opacity="0.7">
+          <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" />
+          SYS:ACTIVE
+        </text>
+      </g>
+
+      {/* Data readout - bottom */}
+      <g opacity="0.6">
+        <line x1="90" y1="258" x2="190" y2="258" stroke="hsl(212 100% 50% / 0.3)" strokeWidth="0.5" />
+        <text x="92" y="268" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" opacity="0.7">
+          <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite" />
+          v2.0 BETA
+        </text>
+      </g>
+
+      {/* Data readout - left */}
+      <g opacity="0.5">
+        <text x="12" y="135" fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform="rotate(-90 12 135)">
+          <animate attributeName="opacity" values="0.2;0.7;0.2" dur="4s" repeatCount="indefinite" />
+          ISHAN-X
+        </text>
+      </g>
+
+      {/* Data readout - right */}
+      <g opacity="0.5">
+        <text x="268" y="145" fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform="rotate(90 268 145)">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.5s" repeatCount="indefinite" />
+          ONLINE
+        </text>
+      </g>
+
+      {/* Scanning beam rotating around hexagon */}
+      <g className="animate-spin-slow" style={{ transformOrigin: "center" }}>
+        <line
+          x1={cx}
+          y1={cy}
+          x2={cx}
+          y2={cy - 125}
+          stroke="hsl(212 100% 50% / 0.4)"
+          strokeWidth="1"
+        >
+          <animate attributeName="opacity" values="0;0.6;0" dur="3s" repeatCount="indefinite" />
+        </line>
+      </g>
+    </svg>
+  );
+};
+
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden cyber-grid">
@@ -16,20 +175,10 @@ const HeroSection = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-8 relative"
         >
-          {/* Outer rotating ring */}
-          <div className="absolute inset-[-20px] md:inset-[-24px] rounded-full border border-primary/20 animate-spin-slow" />
-          {/* Middle counter-rotating dashed ring */}
-          <div className="absolute inset-[-12px] md:inset-[-14px] rounded-full border border-dashed border-primary/30 animate-spin-reverse" />
-          {/* Pulsing glow ring */}
-          <div className="absolute inset-[-4px] md:inset-[-5px] rounded-full border-2 border-primary/40 animate-pulse-glow" />
-          {/* Corner orbiters */}
-          <div className="absolute inset-[-20px] md:inset-[-24px] animate-spin-slow">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_hsl(212_100%_50%/0.8)]" />
-          </div>
-          <div className="absolute inset-[-20px] md:inset-[-24px] animate-spin-reverse">
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_hsl(212_100%_50%/0.6)]" />
-          </div>
-          {/* Scan line */}
+          {/* Hexagonal HUD Frame */}
+          <HexagonHUD />
+
+          {/* Scan line over logo */}
           <div className="absolute inset-0 rounded-full overflow-hidden">
             <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent animate-scan-line" />
           </div>
