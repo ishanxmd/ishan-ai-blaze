@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Loader2, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 type Message = { role: "user" | "assistant"; content: string };
