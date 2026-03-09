@@ -14,12 +14,29 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          className="mb-8 relative"
         >
+          {/* Outer rotating ring */}
+          <div className="absolute inset-[-20px] md:inset-[-24px] rounded-full border border-primary/20 animate-spin-slow" />
+          {/* Middle counter-rotating dashed ring */}
+          <div className="absolute inset-[-12px] md:inset-[-14px] rounded-full border border-dashed border-primary/30 animate-spin-reverse" />
+          {/* Pulsing glow ring */}
+          <div className="absolute inset-[-4px] md:inset-[-5px] rounded-full border-2 border-primary/40 animate-pulse-glow" />
+          {/* Corner orbiters */}
+          <div className="absolute inset-[-20px] md:inset-[-24px] animate-spin-slow">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_hsl(212_100%_50%/0.8)]" />
+          </div>
+          <div className="absolute inset-[-20px] md:inset-[-24px] animate-spin-reverse">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_hsl(212_100%_50%/0.6)]" />
+          </div>
+          {/* Scan line */}
+          <div className="absolute inset-0 rounded-full overflow-hidden">
+            <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent animate-scan-line" />
+          </div>
           <img
             src={botLogo}
             alt="ISHAN BETA MD Bot Logo"
-            className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-primary/50 animate-float object-cover"
+            className="relative z-10 w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-primary/50 animate-float object-cover"
           />
         </motion.div>
 
