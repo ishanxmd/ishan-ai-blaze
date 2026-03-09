@@ -187,8 +187,8 @@ const HeroSection = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-8 relative"
         >
-          {/* Hexagonal HUD Frame */}
-          <HexagonHUD />
+          {/* Circular HUD Frame */}
+          <CircularHUD />
 
           {/* Scan line over logo */}
           <div className="absolute inset-0 rounded-full overflow-hidden">
