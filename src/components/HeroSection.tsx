@@ -2,29 +2,37 @@ import { motion } from "framer-motion";
 import botLogo from "@/assets/bot-logo.png";
 import { ExternalLink, Github } from "lucide-react";
 
-const HexagonHUD = () => {
-  // Hexagon points for a regular hexagon (pointy-top), scaled to fit a viewBox
-  const size = 280;
+const CircularHUD = () => {
+  const size = 300;
   const cx = size / 2;
   const cy = size / 2;
 
-  const hexPoints = (radius: number) => {
-    return Array.from({ length: 6 }, (_, i) => {
-      const angle = (Math.PI / 3) * i - Math.PI / 2;
-      return `${cx + radius * Math.cos(angle)},${cy + radius * Math.sin(angle)}`;
-    }).join(" ");
-  };
-
-  const cornerPositions = Array.from({ length: 6 }, (_, i) => {
-    const angle = (Math.PI / 3) * i - Math.PI / 2;
-    const r = 120;
-    return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  // Generate tick marks around the circle
+  const ticks = Array.from({ length: 60 }, (_, i) => {
+    const angle = (Math.PI * 2 * i) / 60 - Math.PI / 2;
+    const isMajor = i % 5 === 0;
+    const r1 = isMajor ? 125 : 128;
+    const r2 = 132;
+    return {
+      x1: cx + r1 * Math.cos(angle),
+      y1: cy + r1 * Math.sin(angle),
+      x2: cx + r2 * Math.cos(angle),
+      y2: cy + r2 * Math.sin(angle),
+      isMajor,
+    };
   });
+
+  // Orbiting dots
+  const orbitDots = Array.from({ length: 8 }, (_, i) => ({
+    angle: (360 / 8) * i,
+    delay: i * 0.4,
+    radius: 3 - (i % 3),
+  }));
 
   return (
     <svg
       viewBox={`0 0 ${size} ${size}`}
-      className="absolute inset-[-40px] md:inset-[-50px] w-[calc(100%+80px)] h-[calc(100%+80px)] md:w-[calc(100%+100px)] md:h-[calc(100%+100px)]"
+      className="absolute inset-[-50px] md:inset-[-60px] w-[calc(100%+100px)] h-[calc(100%+100px)] md:w-[calc(100%+120px)] md:h-[calc(100%+120px)]"
     >
       <defs>
         <filter id="glow">
@@ -34,129 +42,133 @@ const HexagonHUD = () => {
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
-        <linearGradient id="hexGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="hsl(212 100% 50%)" stopOpacity="0.8" />
-          <stop offset="50%" stopColor="hsl(230 100% 60%)" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="hsl(212 100% 50%)" stopOpacity="0.8" />
+        <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(212 100% 50%)" stopOpacity="0.9" />
+          <stop offset="50%" stopColor="hsl(260 100% 60%)" stopOpacity="0.7" />
+          <stop offset="100%" stopColor="hsl(212 100% 50%)" stopOpacity="0.9" />
         </linearGradient>
+        <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="hsl(212 100% 50%)" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="hsl(212 100% 50%)" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
-      {/* Outer hexagon - rotating */}
+      {/* Ambient center glow */}
+      <circle cx={cx} cy={cy} r="140" fill="url(#centerGlow)" />
+
+      {/* Outermost ring - slow rotate */}
       <g className="animate-spin-slow" style={{ transformOrigin: "center" }}>
-        <polygon
-          points={hexPoints(130)}
-          fill="none"
-          stroke="hsl(212 100% 50% / 0.15)"
-          strokeWidth="1"
-        />
+        <circle cx={cx} cy={cy} r="140" fill="none" stroke="hsl(212 100% 50% / 0.08)" strokeWidth="0.5" />
+        {/* Dashed arc segments */}
+        <circle cx={cx} cy={cy} r="140" fill="none" stroke="hsl(212 100% 50% / 0.2)" strokeWidth="1" strokeDasharray="30 20 10 20" />
       </g>
 
-      {/* Main hexagon frame */}
-      <polygon
-        points={hexPoints(120)}
+      {/* Tick marks ring */}
+      <g>
+        {ticks.map((t, i) => (
+          <line
+            key={i}
+            x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+            stroke={t.isMajor ? "hsl(212 100% 50% / 0.6)" : "hsl(212 100% 50% / 0.2)"}
+            strokeWidth={t.isMajor ? "1.5" : "0.5"}
+          />
+        ))}
+      </g>
+
+      {/* Main ring with gradient */}
+      <circle
+        cx={cx} cy={cy} r="120"
         fill="none"
-        stroke="url(#hexGrad)"
+        stroke="url(#arcGrad)"
         strokeWidth="1.5"
         filter="url(#glow)"
         className="animate-pulse-glow"
       />
 
-      {/* Inner hexagon - counter-rotating */}
+      {/* Inner dashed ring - counter rotate */}
       <g className="animate-spin-reverse" style={{ transformOrigin: "center" }}>
-        <polygon
-          points={hexPoints(110)}
-          fill="none"
-          stroke="hsl(212 100% 50% / 0.2)"
-          strokeWidth="0.5"
-          strokeDasharray="8 4"
+        <circle cx={cx} cy={cy} r="110" fill="none" stroke="hsl(260 100% 60% / 0.15)" strokeWidth="0.5" strokeDasharray="6 4" />
+      </g>
+
+      {/* Innermost thin ring */}
+      <circle cx={cx} cy={cy} r="100" fill="none" stroke="hsl(212 100% 50% / 0.1)" strokeWidth="0.5" />
+
+      {/* Arc segments on main ring */}
+      <g className="animate-spin-slow" style={{ transformOrigin: "center", animationDuration: "20s" }}>
+        <circle cx={cx} cy={cy} r="120" fill="none" stroke="hsl(340 100% 55% / 0.4)" strokeWidth="2.5" strokeDasharray="40 280" strokeLinecap="round" />
+      </g>
+      <g className="animate-spin-reverse" style={{ transformOrigin: "center", animationDuration: "15s" }}>
+        <circle cx={cx} cy={cy} r="132" fill="none" stroke="hsl(212 100% 50% / 0.3)" strokeWidth="2" strokeDasharray="25 200" strokeLinecap="round" />
+      </g>
+
+      {/* Orbiting dots */}
+      <g className="animate-spin-slow" style={{ transformOrigin: "center", animationDuration: "10s" }}>
+        {orbitDots.map((dot, i) => {
+          const angle = (Math.PI * 2 * i) / 8 - Math.PI / 2;
+          const x = cx + 126 * Math.cos(angle);
+          const y = cy + 126 * Math.sin(angle);
+          return (
+            <circle key={i} cx={x} cy={y} r={dot.radius} fill="hsl(212 100% 50%)" filter="url(#glow)">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur={`${1.5 + dot.delay}s`} repeatCount="indefinite" />
+            </circle>
+          );
+        })}
+      </g>
+
+      {/* Scanning beam */}
+      <g className="animate-spin-slow" style={{ transformOrigin: "center", animationDuration: "4s" }}>
+        <line x1={cx} y1={cy} x2={cx} y2={cy - 135} stroke="hsl(212 100% 50% / 0.3)" strokeWidth="1">
+          <animate attributeName="opacity" values="0;0.6;0" dur="4s" repeatCount="indefinite" />
+        </line>
+        {/* Sweep gradient trail */}
+        <path
+          d={`M ${cx} ${cy} L ${cx} ${cy - 135} A 135 135 0 0 1 ${cx + 135 * Math.sin(Math.PI / 6)} ${cy - 135 * Math.cos(Math.PI / 6)} Z`}
+          fill="hsl(212 100% 50% / 0.04)"
         />
       </g>
 
-      {/* Corner bracket markers */}
-      {cornerPositions.map((pos, i) => (
-        <g key={i}>
-          {/* Corner dot */}
-          <circle
-            cx={pos.x}
-            cy={pos.y}
-            r="3"
-            fill="hsl(212 100% 50%)"
-            filter="url(#glow)"
-          >
-            <animate
-              attributeName="opacity"
-              values="0.4;1;0.4"
-              dur={`${1.5 + i * 0.3}s`}
-              repeatCount="indefinite"
-            />
-          </circle>
-          {/* Small bracket lines at corners */}
-          <line
-            x1={pos.x - 6}
-            y1={pos.y}
-            x2={pos.x + 6}
-            y2={pos.y}
-            stroke="hsl(212 100% 50% / 0.5)"
-            strokeWidth="0.5"
-          />
-          <line
-            x1={pos.x}
-            y1={pos.y - 6}
-            x2={pos.x}
-            y2={pos.y + 6}
-            stroke="hsl(212 100% 50% / 0.5)"
-            strokeWidth="0.5"
-          />
-        </g>
-      ))}
-
-      {/* Data readout lines - top */}
+      {/* Data readouts */}
       <g opacity="0.6">
-        <line x1="90" y1="25" x2="190" y2="25" stroke="hsl(212 100% 50% / 0.3)" strokeWidth="0.5" />
-        <text x="92" y="22" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" opacity="0.7">
+        <text x={cx} y="18" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" textAnchor="middle">
           <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite" />
           SYS:ACTIVE
         </text>
       </g>
-
-      {/* Data readout - bottom */}
       <g opacity="0.6">
-        <line x1="90" y1="258" x2="190" y2="258" stroke="hsl(212 100% 50% / 0.3)" strokeWidth="0.5" />
-        <text x="92" y="268" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" opacity="0.7">
+        <text x={cx} y="290" fill="hsl(212 100% 50%)" fontSize="6" fontFamily="Orbitron, monospace" textAnchor="middle">
           <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite" />
           v2.0 BETA
         </text>
       </g>
-
-      {/* Data readout - left */}
       <g opacity="0.5">
-        <text x="12" y="135" fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform="rotate(-90 12 135)">
+        <text x="12" y={cy} fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform={`rotate(-90 12 ${cy})`}>
           <animate attributeName="opacity" values="0.2;0.7;0.2" dur="4s" repeatCount="indefinite" />
           ISHAN-X
         </text>
       </g>
-
-      {/* Data readout - right */}
       <g opacity="0.5">
-        <text x="268" y="145" fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform="rotate(90 268 145)">
+        <text x="288" y={cy} fill="hsl(212 100% 50%)" fontSize="5" fontFamily="Orbitron, monospace" transform={`rotate(90 288 ${cy})`}>
           <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.5s" repeatCount="indefinite" />
           ONLINE
         </text>
       </g>
 
-      {/* Scanning beam rotating around hexagon */}
-      <g className="animate-spin-slow" style={{ transformOrigin: "center" }}>
-        <line
-          x1={cx}
-          y1={cy}
-          x2={cx}
-          y2={cy - 125}
-          stroke="hsl(212 100% 50% / 0.4)"
-          strokeWidth="1"
-        >
-          <animate attributeName="opacity" values="0;0.6;0" dur="3s" repeatCount="indefinite" />
-        </line>
-      </g>
+      {/* Corner crosshair markers at cardinal points */}
+      {[0, 90, 180, 270].map((deg, i) => {
+        const angle = (deg * Math.PI) / 180 - Math.PI / 2;
+        const r = 120;
+        const px = cx + r * Math.cos(angle);
+        const py = cy + r * Math.sin(angle);
+        return (
+          <g key={i}>
+            <line x1={px - 6} y1={py} x2={px + 6} y2={py} stroke="hsl(212 100% 50% / 0.6)" strokeWidth="1" />
+            <line x1={px} y1={py - 6} x2={px} y2={py + 6} stroke="hsl(212 100% 50% / 0.6)" strokeWidth="1" />
+            <circle cx={px} cy={py} r="2" fill="hsl(212 100% 50%)" filter="url(#glow)">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur={`${2 + i * 0.5}s`} repeatCount="indefinite" />
+            </circle>
+          </g>
+        );
+      })}
     </svg>
   );
 };
