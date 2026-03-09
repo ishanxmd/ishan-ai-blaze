@@ -19,7 +19,7 @@ const HeroSection = () => {
           <img
             src={botLogo}
             alt="ISHAN BETA MD Bot Logo"
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 animate-float object-cover"
+            className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-primary/50 animate-float object-cover"
           />
         </motion.div>
 
