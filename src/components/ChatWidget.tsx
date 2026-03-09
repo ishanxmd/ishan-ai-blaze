@@ -173,7 +173,19 @@ const ChatWidget = () => {
                 <div className="font-display text-sm tracking-wider text-primary-foreground">ISHAN-X AI</div>
                 <div className="text-xs text-primary-foreground/70">Assistant</div>
               </div>
-              <div className="ml-auto w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <div className="ml-auto flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setMessages([{ role: "assistant", content: "👋 Hi! I'm the **ISHAN-X AI Assistant**. How can I help you today? Choose a question below or type your own!" }]);
+                    setInput("");
+                  }}
+                  title="Clear chat"
+                  className="w-7 h-7 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-primary-foreground" />
+                </button>
+                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              </div>
             </div>
 
             {/* Messages */}
