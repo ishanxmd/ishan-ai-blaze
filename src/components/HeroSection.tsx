@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import botLogo from "@/assets/bot-logo.png";
+import msXMd from "@/assets/ms-x-md.png";
 import { ExternalLink, Github } from "lucide-react";
 
 const CircularHUD = () => {
