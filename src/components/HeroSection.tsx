@@ -176,7 +176,7 @@ const CircularHUD = () => {
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden cyber-grid">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden cyber-grid pt-20">
       {/* Background glow */}
       <div className="absolute inset-0 gradient-hero-bg" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
