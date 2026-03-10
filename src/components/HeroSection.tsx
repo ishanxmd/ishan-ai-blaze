@@ -191,14 +191,31 @@ const HeroSection = () => {
           {/* Circular HUD Frame */}
           <CircularHUD />
 
-          {/* Scan line over logo */}
+          {/* Multiple scan lines */}
           <div className="absolute inset-0 rounded-full overflow-hidden">
             <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent animate-scan-line" />
+            <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-accent/40 to-transparent animate-scan-line" style={{ animationDelay: '2s', animationDuration: '5s' }} />
           </div>
+
+          {/* Pulsing glow rings behind logo */}
+          <div className="absolute inset-0 flex items-center justify-center z-[5]">
+            <div className="absolute w-60 h-60 md:w-72 md:h-72 rounded-full border border-primary/20 animate-ping" style={{ animationDuration: '3s' }} />
+            <div className="absolute w-64 h-64 md:w-76 md:h-76 rounded-full border border-accent/10 animate-ping" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+            <div className="absolute w-56 h-56 md:w-64 md:h-64 rounded-full bg-primary/5 blur-xl animate-pulse" />
+          </div>
+
+          {/* Corner data readouts on logo */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 z-20 font-display text-[8px] tracking-[0.3em] text-primary/60 animate-pulse">
+            SCANNING
+          </div>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 font-display text-[8px] tracking-[0.3em] text-primary/60 animate-pulse" style={{ animationDelay: '1.5s' }}>
+            LOCKED
+          </div>
+
           <img
             src={botLogo}
             alt="ISHAN BETA MD Bot Logo"
-            className="relative z-10 w-56 h-56 md:w-64 md:h-64 rounded-full border-2 border-primary/50 animate-float object-cover"
+            className="relative z-10 w-56 h-56 md:w-64 md:h-64 rounded-full border-2 border-primary/50 animate-float object-cover shadow-[0_0_40px_-5px_hsl(var(--primary)/0.4),0_0_80px_-10px_hsl(var(--primary)/0.2)]"
           />
         </motion.div>
 
