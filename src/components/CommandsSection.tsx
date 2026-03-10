@@ -9,7 +9,7 @@ const commands = [
 
 const CommandsSection = () => {
   return (
-    <section className="py-20">
+    <section id="commands" className="py-20">
       <div className="container px-4">
         <motion.h2
           initial={{ opacity: 0 }}

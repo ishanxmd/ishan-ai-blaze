@@ -11,7 +11,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="py-20 relative cyber-grid">
+    <section id="features" className="py-20 relative cyber-grid">
       <div className="absolute inset-0 bg-background/80" />
       <div className="container px-4 relative z-10">
         <motion.h2
