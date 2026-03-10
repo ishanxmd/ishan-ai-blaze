@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import botLogo from "@/assets/bot-logo.png";
+import msXMd from "@/assets/ms-x-md.png";
 import { ExternalLink, Github } from "lucide-react";
 
 const CircularHUD = () => {
@@ -243,6 +244,46 @@ const HeroSection = () => {
             <Github className="w-4 h-4" />
             GET REPO
           </a>
+        </motion.div>
+
+        {/* MS & X MD Image with tech effect */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="mt-12 relative group max-w-2xl w-full"
+        >
+          {/* Outer glow border */}
+          <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary via-accent to-primary opacity-60 blur-md group-hover:opacity-80 transition-opacity animate-[color-shift_4s_ease-in-out_infinite] bg-[length:300%_300%]" />
+          
+          {/* Scan line */}
+          <div className="absolute inset-0 rounded-xl overflow-hidden z-20 pointer-events-none">
+            <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/80 to-transparent animate-scan-line" />
+          </div>
+
+          {/* Corner brackets */}
+          <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg z-20" />
+          <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary rounded-tr-lg z-20" />
+          <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary rounded-bl-lg z-20" />
+          <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg z-20" />
+
+          {/* HUD data overlay */}
+          <div className="absolute top-2 left-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse">
+            SYS:CONNECTED
+          </div>
+          <div className="absolute top-2 right-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse" style={{ animationDelay: '1s' }}>
+            MS &amp; X MD
+          </div>
+          <div className="absolute bottom-2 left-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse" style={{ animationDelay: '0.5s' }}>
+            DEV:ACTIVE
+          </div>
+
+          {/* Image */}
+          <img
+            src={msXMd}
+            alt="MS & X MD Developers"
+            className="relative z-10 w-full rounded-xl border border-primary/30 object-cover shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]"
+          />
         </motion.div>
       </div>
     </section>
