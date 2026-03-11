@@ -39,7 +39,7 @@ const DeveloperSection = () => {
               href="https://wa.me/message/PDS7DAO342DCG1"
               target="_blank"
               rel="noopener noreferrer"
-              className="gradient-primary px-6 py-3 rounded-lg font-display text-xs tracking-widest text-primary-foreground flex items-center justify-center gap-2 hover:opacity-90 transition-opacity glow-box"
+              className="btn-rgb-shift px-6 py-3 rounded-lg font-display text-xs tracking-widest text-white flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-lg"
             >
               <MessageCircle className="w-4 h-4" />
               Contact Me
@@ -48,7 +48,7 @@ const DeveloperSection = () => {
               href="https://github.com/ishanxmd"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-lg font-display text-xs tracking-widest border border-primary/50 text-foreground flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors"
+              className="btn-rgb-border px-6 py-3 rounded-lg font-display text-xs tracking-widest text-foreground flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
             >
               <Github className="w-4 h-4" />
               GitHub
