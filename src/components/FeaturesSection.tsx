@@ -41,7 +41,7 @@ const FeaturesSection = () => {
               className="rounded-2xl bg-secondary/80 border border-border/50 p-6 group hover:border-primary/40 transition-all hover:-translate-y-1 flex flex-col items-center text-center"
             >
               <div className="mb-4">
-                <f.icon className="w-10 h-10 text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" />
+                <f.icon className="w-10 h-10 text-[hsl(185_100%_50%)] drop-shadow-[0_0_8px_hsl(185_100%_50%/0.5)]" />
               </div>
               <h3 className="font-display text-lg font-semibold mb-2 text-foreground">{f.title}</h3>
               <p className="text-sm text-muted-foreground font-body">{f.desc}</p>

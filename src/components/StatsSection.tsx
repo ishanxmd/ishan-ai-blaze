@@ -41,7 +41,7 @@ const StatCard = ({ icon: Icon, label, value, numericEnd, index, inView }: any) 
       className="rounded-2xl bg-secondary/80 border border-border/50 p-6 text-center group hover:border-primary/40 transition-all hover:-translate-y-1"
     >
       <div className="flex justify-center mb-4">
-        <Icon className="w-10 h-10 text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" />
+        <Icon className="w-10 h-10 text-[hsl(185_100%_50%)] drop-shadow-[0_0_8px_hsl(185_100%_50%/0.5)]" />
       </div>
       <div className="text-2xl md:text-3xl font-bold font-display text-gradient mb-1">
         {value}
