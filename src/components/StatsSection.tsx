@@ -38,10 +38,10 @@ const StatCard = ({ icon: Icon, label, value, numericEnd, index, inView }: any) 
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="glass-card p-6 text-center group hover:border-primary/50 transition-colors"
+      className="rounded-2xl bg-secondary/80 border border-border/50 p-6 text-center group hover:border-primary/40 transition-all hover:-translate-y-1"
     >
-      <div className="w-12 h-12 mx-auto mb-4 rounded-lg gradient-primary flex items-center justify-center group-hover:glow-box transition-shadow">
-        <Icon className="w-6 h-6 text-primary-foreground" />
+      <div className="flex justify-center mb-4">
+        <Icon className="w-10 h-10 text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" />
       </div>
       <div className="text-2xl md:text-3xl font-bold font-display text-gradient mb-1">
         {value}

@@ -38,10 +38,10 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               viewport={{ once: true }}
-              className="glass-card p-6 group hover:border-primary/50 transition-all hover:-translate-y-1"
+              className="rounded-2xl bg-secondary/80 border border-border/50 p-6 group hover:border-primary/40 transition-all hover:-translate-y-1 flex flex-col items-center text-center"
             >
-              <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center mb-4 group-hover:glow-box transition-shadow">
-                <f.icon className="w-6 h-6 text-primary-foreground" />
+              <div className="mb-4">
+                <f.icon className="w-10 h-10 text-primary drop-shadow-[0_0_8px_hsl(var(--primary)/0.5)]" />
               </div>
               <h3 className="font-display text-lg font-semibold mb-2 text-foreground">{f.title}</h3>
               <p className="text-sm text-muted-foreground font-body">{f.desc}</p>
