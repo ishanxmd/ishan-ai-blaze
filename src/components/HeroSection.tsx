@@ -225,7 +225,16 @@ const HeroSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-4xl md:text-6xl lg:text-7xl font-bold font-display tracking-wider mb-4"
         >
-          <span className="bg-[linear-gradient(270deg,hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%),hsl(212,100%,50%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite]">ISHAN BETA MD</span>
+          <span className="relative inline-block">
+            <span className="bg-[linear-gradient(270deg,hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%),hsl(212,100%,50%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite]">ISHAN BETA MD</span>
+            {/* Glitch layers */}
+            <span className="absolute inset-0 bg-[linear-gradient(270deg,hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%),hsl(212,100%,50%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite] animate-[glitch-1_3s_infinite]" aria-hidden="true">ISHAN BETA MD</span>
+            <span className="absolute inset-0 bg-[linear-gradient(270deg,hsl(340,100%,55%),hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite] animate-[glitch-2_3s_infinite]" aria-hidden="true">ISHAN BETA MD</span>
+            {/* Underline scanner */}
+            <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent animate-[text-scan_2s_linear_infinite]" />
+            {/* Glow behind text */}
+            <span className="absolute inset-0 blur-lg opacity-40 bg-[linear-gradient(270deg,hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%),hsl(212,100%,50%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite]" aria-hidden="true">ISHAN BETA MD</span>
+          </span>
         </motion.h1>
 
         <motion.p
@@ -270,36 +279,54 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.9 }}
           className="mt-12 relative group max-w-2xl w-full"
         >
-          {/* Outer glow border */}
-          <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary via-accent to-primary opacity-60 blur-md group-hover:opacity-80 transition-opacity animate-[color-shift_4s_ease-in-out_infinite] bg-[length:300%_300%]" />
+          {/* Animated outer glow border */}
+          <div className="absolute -inset-1.5 rounded-xl bg-gradient-to-r from-primary via-[hsl(280,100%,60%)] to-[hsl(340,100%,55%)] opacity-70 blur-lg group-hover:opacity-90 transition-opacity animate-[color-shift_3s_ease-in-out_infinite] bg-[length:300%_300%]" />
+          <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-[hsl(340,100%,55%)] via-primary to-[hsl(280,100%,60%)] opacity-50 blur-sm animate-[color-shift_5s_ease-in-out_infinite] bg-[length:300%_300%]" />
           
-          {/* Scan line */}
+          {/* Multiple scan lines */}
           <div className="absolute inset-0 rounded-xl overflow-hidden z-20 pointer-events-none">
             <div className="absolute inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-primary/80 to-transparent animate-scan-line" />
+            <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[hsl(340,100%,55%)]/60 to-transparent animate-scan-line" style={{ animationDelay: '2s', animationDuration: '5s' }} />
+            {/* Horizontal grid lines overlay */}
+            <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, hsl(212 100% 50%), hsl(212 100% 50%) 1px, transparent 1px, transparent 4px)' }} />
           </div>
 
-          {/* Corner brackets */}
-          <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary rounded-tl-lg z-20" />
-          <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary rounded-tr-lg z-20" />
-          <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary rounded-bl-lg z-20" />
-          <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary rounded-br-lg z-20" />
+          {/* Corner brackets - larger & animated */}
+          <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary rounded-tl-lg z-20 animate-pulse" />
+          <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[hsl(280,100%,60%)] rounded-tr-lg z-20 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-[hsl(340,100%,55%)] rounded-bl-lg z-20 animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary rounded-br-lg z-20 animate-pulse" style={{ animationDelay: '1.5s' }} />
+
+          {/* Corner dot indicators */}
+          <div className="absolute top-[-4px] left-[-4px] w-2 h-2 rounded-full bg-primary z-30 shadow-[0_0_8px_hsl(212_100%_50%)] animate-pulse" />
+          <div className="absolute top-[-4px] right-[-4px] w-2 h-2 rounded-full bg-[hsl(280,100%,60%)] z-30 shadow-[0_0_8px_hsl(280_100%_60%)] animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="absolute bottom-[-4px] left-[-4px] w-2 h-2 rounded-full bg-[hsl(340,100%,55%)] z-30 shadow-[0_0_8px_hsl(340_100%_55%)] animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-[-4px] right-[-4px] w-2 h-2 rounded-full bg-primary z-30 shadow-[0_0_8px_hsl(212_100%_50%)] animate-pulse" style={{ animationDelay: '1.5s' }} />
 
           {/* HUD data overlay */}
-          <div className="absolute top-2 left-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse">
+          <div className="absolute top-3 left-4 z-20 font-display text-[10px] tracking-widest text-primary/80 animate-pulse flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_6px_hsl(120_100%_50%)]" />
             SYS:CONNECTED
           </div>
-          <div className="absolute top-2 right-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse" style={{ animationDelay: '1s' }}>
+          <div className="absolute top-3 right-4 z-20 font-display text-[10px] tracking-widest text-primary/80 animate-pulse" style={{ animationDelay: '1s' }}>
             MS &amp; X MD
           </div>
-          <div className="absolute bottom-2 left-3 z-20 font-display text-[10px] tracking-widest text-primary/70 animate-pulse" style={{ animationDelay: '0.5s' }}>
+          <div className="absolute bottom-3 left-4 z-20 font-display text-[10px] tracking-widest text-primary/80 animate-pulse flex items-center gap-1.5" style={{ animationDelay: '0.5s' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_6px_hsl(212_100%_50%)] animate-ping" style={{ animationDuration: '2s' }} />
             DEV:ACTIVE
           </div>
+          <div className="absolute bottom-3 right-4 z-20 font-display text-[10px] tracking-widest text-[hsl(340,100%,55%)]/70 animate-pulse" style={{ animationDelay: '2s' }}>
+            BETA v2.0
+          </div>
+
+          {/* Vignette overlay */}
+          <div className="absolute inset-0 rounded-xl z-15 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_50%,hsl(220_20%_4%/0.4)_100%)]" />
 
           {/* Image */}
           <img
             src={msXMd}
             alt="MS & X MD Developers"
-            className="relative z-10 w-full rounded-xl border border-primary/30 object-cover shadow-[0_0_30px_-5px_hsl(var(--primary)/0.3)]"
+            className="relative z-10 w-full rounded-xl border border-primary/40 object-cover shadow-[0_0_40px_-5px_hsl(var(--primary)/0.4),0_0_80px_-10px_hsl(var(--primary)/0.2)]"
           />
         </motion.div>
       </div>
