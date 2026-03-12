@@ -28,6 +28,7 @@ const Index = () => {
       <div className={`min-h-screen bg-background overflow-x-hidden relative ${showSplash ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <Navbar />
         <HeroSection />
+        <TechStackSection />
         <StatsSection />
         <FeaturesSection />
         <CommandsSection />
