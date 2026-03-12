@@ -115,6 +115,15 @@
     animation: rgb-cycle 4s linear infinite;
   }
 
+  .text-rgb {
+    background: linear-gradient(270deg, hsl(0 100% 55%), hsl(120 100% 50%), hsl(212 100% 55%), hsl(280 100% 55%), hsl(0 100% 55%));
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rgb-cycle 4s linear infinite;
+  }
+
   .btn-rgb-border {
     position: relative;
     border: 2px solid transparent;
