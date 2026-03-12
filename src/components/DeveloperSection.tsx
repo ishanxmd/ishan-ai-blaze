@@ -31,6 +31,13 @@ const DeveloperSection = () => {
               className="w-28 h-28 rounded-full border-2 border-primary/50 object-cover relative z-10"
             />
           </div>
+          <div className="relative inline-block mb-6">
+            <img
+              src={devPhoto}
+              alt="I.G Ishan Madusanke Photo"
+              className="w-28 h-28 rounded-full border-2 border-primary/50 object-cover relative z-10"
+            />
+          </div>
           <h3 className="font-display text-xl font-bold mb-2 text-gradient">I.G Ishan Madusanke</h3>
           <p className="text-muted-foreground font-body mb-8 leading-relaxed">
             I'm a passionate Full Stack Developer and the creator of ISHAN-X BETA. My mission is to simplify communication through advanced automation technology, making it accessible to everyone.
