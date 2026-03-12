@@ -51,7 +51,7 @@ const CommandsSection = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 viewport={{ once: true }}
-                className="px-3 py-2 rounded-md bg-secondary/80 border border-border/50 text-center font-mono text-sm text-primary hover:border-primary/50 hover:bg-primary/10 transition-colors cursor-default"
+                className="px-3 py-2 rounded-md bg-secondary/80 border border-border/50 text-center font-mono text-sm text-rgb hover:border-primary/50 hover:bg-primary/10 transition-colors cursor-default"
               >
                 {cmd}
               </motion.div>
