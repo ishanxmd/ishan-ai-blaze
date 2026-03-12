@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import devLogo from "@/assets/developer-logo.png";
+import devPhoto from "@/assets/developer-photo.png";
 import { MessageCircle, Github } from "lucide-react";
 
 const DeveloperSection = () => {
@@ -27,6 +28,13 @@ const DeveloperSection = () => {
             <img
               src={devLogo}
               alt="I.G Ishan Madusanke"
+              className="w-28 h-28 rounded-full border-2 border-primary/50 object-cover relative z-10"
+            />
+          </div>
+          <div className="relative inline-block mb-6">
+            <img
+              src={devPhoto}
+              alt="I.G Ishan Madusanke Photo"
               className="w-28 h-28 rounded-full border-2 border-primary/50 object-cover relative z-10"
             />
           </div>
