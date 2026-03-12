@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import TechStackSection from "@/components/TechStackSection";
 import StatsSection from "@/components/StatsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommandsSection from "@/components/CommandsSection";
@@ -27,6 +28,7 @@ const Index = () => {
       <div className={`min-h-screen bg-background overflow-x-hidden relative ${showSplash ? 'opacity-0' : 'opacity-100 transition-opacity duration-500'}`}>
         <Navbar />
         <HeroSection />
+        <TechStackSection />
         <StatsSection />
         <FeaturesSection />
         <CommandsSection />
