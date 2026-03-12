@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
+import TechStackSection from "@/components/TechStackSection";
 import StatsSection from "@/components/StatsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CommandsSection from "@/components/CommandsSection";
