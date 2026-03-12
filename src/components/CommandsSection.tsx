@@ -17,7 +17,7 @@ const CommandsSection = () => {
           viewport={{ once: true }}
           className="text-3xl md:text-4xl font-bold font-display text-center mb-4"
         >
-          Bot <span className="text-gradient">Commands</span>
+          Bot <span className="text-rgb">Commands</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}

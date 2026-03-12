@@ -233,7 +233,7 @@ const HeroSection = () => {
             {/* Underline scanner */}
             <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent animate-[text-scan_2s_linear_infinite]" />
             {/* Glow behind text */}
-            <span className="absolute inset-0 blur-lg opacity-40 bg-[linear-gradient(270deg,hsl(212,100%,50%),hsl(280,100%,60%),hsl(340,100%,55%),hsl(212,100%,50%))] bg-[length:300%_300%] bg-clip-text text-transparent animate-[color-shift_4s_ease-in-out_infinite]" aria-hidden="true">ISHAN BETA MD</span>
+            <span className="absolute inset-0 blur-lg opacity-40 text-rgb" aria-hidden="true">ISHAN BETA MD</span>
           </span>
         </motion.h1>
 
