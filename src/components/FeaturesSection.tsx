@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
-import { Film, Shield, Bot, UsersRound, Music } from "lucide-react";
+import { LayoutGrid, EyeOff, Download, MessageCircle, UsersRound, Music } from "lucide-react";
 
 const features = [
-  { icon: Film, title: "Movie & TV", desc: "Download movies, TV shows, and trailers directly through WhatsApp." },
-  { icon: Shield, title: "Privacy Pro", desc: "Advanced privacy features to protect your group and personal chats." },
-  { icon: Bot, title: "AI Chat", desc: "Powered by artificial intelligence for smart conversations." },
-  { icon: UsersRound, title: "Group Tools", desc: "Powerful admin tools for managing WhatsApp groups efficiently." },
-  { icon: Music, title: "Music Hub", desc: "Search and download music from multiple platforms instantly." },
+  { icon: LayoutGrid, title: "Movies & TV", desc: "Download Sinhala subtitled movies directly." },
+  { icon: EyeOff, title: "Privacy Pro", desc: "View Once recovery and Anti-Delete system." },
+  { icon: Download, title: "Downloader", desc: "TikTok, FB, Insta & YouTube support." },
+  { icon: MessageCircle, title: "AI Chat", desc: "Integrated ChatGPT for smart conversations." },
+  { icon: UsersRound, title: "Group Tools", desc: "Full admin control and member management." },
+  { icon: Music, title: "Music Hub", desc: "MP3 Songs with lyrics and album art." },
 ];
 
 const FeaturesSection = () => {

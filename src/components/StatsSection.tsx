@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import { Users, MessageSquare, Server, Zap } from "lucide-react";
+import { UsersRound, MessageSquareMore, Server, GitBranch } from "lucide-react";
 
 const stats = [
-  { icon: Users, label: "Active Users", value: "50K+", numericEnd: 50 },
-  { icon: MessageSquare, label: "Messages Sent", value: "10M+", numericEnd: 10 },
-  { icon: Server, label: "Server Uptime", value: "99.9%", numericEnd: 99.9 },
-  { icon: Zap, label: "Current Version", value: "V3 ULTRA", numericEnd: 3 },
+  { icon: UsersRound, label: "ACTIVE USERS", value: "50K+", numericEnd: 50 },
+  { icon: MessageSquareMore, label: "MESSAGES SENT", value: "10M+", numericEnd: 10 },
+  { icon: Server, label: "SERVER UPTIME", value: "99.9%", numericEnd: 99.9 },
+  { icon: GitBranch, label: "CURRENT VERSION", value: "V1.0.0", numericEnd: 1 },
 ];
 
 const useCountUp = (end: number, duration: number, inView: boolean) => {
