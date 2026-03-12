@@ -23,7 +23,7 @@ const Navbar = () => {
             className="text-sm md:text-base font-bold tracking-wider"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            ISHAN-X BETA&nbsp;<span className="text-gradient">MD</span>
+            <span className="text-rgb">ISHAN-X BETA</span>&nbsp;<span className="text-rgb">MD</span>
           </span>
         </div>
 
