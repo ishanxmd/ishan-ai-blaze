@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import devLogo from "@/assets/developer-logo.png";
+import devPhoto from "@/assets/developer-photo.png";
 import { MessageCircle, Github } from "lucide-react";
 
 const DeveloperSection = () => {
