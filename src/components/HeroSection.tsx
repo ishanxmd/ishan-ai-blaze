@@ -253,7 +253,7 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-4"
         >
           <a
-            href="https://ishan-x-md-beta-pair-web-production.up.railway.app"
+            href="https://ishan-x-md-beta-pair-web-production-051b.up.railway.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-color-shift px-8 py-3.5 rounded-lg font-display text-sm tracking-widest text-primary-foreground flex items-center gap-2 hover:opacity-90 transition-opacity glow-box"
